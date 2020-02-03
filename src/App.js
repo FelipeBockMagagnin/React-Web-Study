@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import Navbar from './Navbar/Navbar'
 
 class App extends Component{
   constructor(props) {
@@ -9,40 +9,26 @@ class App extends Component{
     this.state = {
       usuario: '',
       games: [],
-      the_witcher: []
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.getDataAxios();
-  }
-
-  async getDataAxios() {
-    const response = await axios.get("https://api.rawg.io/api/games");
-    const response2 = await axios.get("https://api.rawg.io/api/games/the-witcher-3-wild-hunt");
-
-    console.log(response2.data);
-    this.setState({ games: response.data.results, the_witcher: response2.data})
-  } 
-
-  handleChange(e) {
-    this.setState({ usuario: e.target.value });
-  }
+  }  
 
   render(){
     let state = this.state;
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+        <Navbar/>
+
+        <div className="container">        
+          <div className="row">
             <p>Usuário: {state.usuario} </p>
 
-          <input value={state.usuario} 
-          onChange={this.handleChange}></input>
-
-          <div>
-            <span>Nome: {state.the_witcher.name}</span>
-            <div>Release: {state.the_witcher.released}</div>
+            <input className='input-field col s12' value={state.usuario} 
+            onChange={this.handleChange}></input>
           </div>
+          
 
           <ol>
             {
@@ -50,9 +36,20 @@ class App extends Component{
               <li key={game.name}>{game.name}, rating: {game.rating}</li>
             )}
           </ol>
-        </header>
+        </div>
       </div>
     );
+  }
+
+  async getDataAxios() {
+    const response = await axios.get("https://api.rawg.io/api/games");
+    console.log(response);
+
+    this.setState({ games: response.data.results})
+  } 
+
+  handleChange(e) {
+    this.setState({ usuario: e.target.value });
   }
 }  
 
