@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
 import Navbar from './Navbar/Navbar'
+import GameList from './Games/GameList'
 
-class App extends Component{
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,29 +14,25 @@ class App extends Component{
 
     this.handleChange = this.handleChange.bind(this);
     this.getDataAxios();
-  }  
+  }
 
-  render(){
+  render() {
     let state = this.state;
     return (
       <div className="App">
-        <Navbar/>
+        <Navbar />
 
-        <div className="container">        
-          <div className="row">
-            <p>Usuário: {state.usuario} </p>
+        <div className="container">
+          <div className="form-row">
+            <div className="col-md-6">
+              <p>Usuário: {state.usuario} </p>
+              <input className='form-control' value={state.usuario} onChange={this.handleChange}></input>
+            </div>
 
-            <input className='input-field col s12' value={state.usuario} 
-            onChange={this.handleChange}></input>
+            <div className="col-md-6">
+              <GameList/>
+            </div>
           </div>
-          
-
-          <ol>
-            {
-              state.games.map(game =>
-              <li key={game.name}>{game.name}, rating: {game.rating}</li>
-            )}
-          </ol>
         </div>
       </div>
     );
@@ -45,13 +42,13 @@ class App extends Component{
     const response = await axios.get("https://api.rawg.io/api/games");
     console.log(response);
 
-    this.setState({ games: response.data.results})
-  } 
+    this.setState({ games: response.data.results })
+  }
 
   handleChange(e) {
     this.setState({ usuario: e.target.value });
   }
-}  
+}
 
 
 export default App;
