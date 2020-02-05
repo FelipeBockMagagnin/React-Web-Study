@@ -21,7 +21,7 @@ class App extends Component {
           <div>
             <Switch>
               <Route path="/game/:id" component={GamePage} />
-              <Route path="/" component={GameList} />
+              <Route path="/" exact component={GameList} />
             </Switch>
           </div>
 

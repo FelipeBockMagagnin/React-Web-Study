@@ -20,11 +20,9 @@ class GameList extends Component {
     };
 
     async gameData() {
-        const response = await axios.get("https://api.rawg.io/api/games");
-        const response2 = await axios.get(response.data.next);
-        const data = response.data.results.concat(response2.data.results);
+        const data = await axios.get("https://api.rawg.io/api/games");
 
-        this.setState({ games: data })
+        this.setState({ games: data.data.results })
     }
 }
 

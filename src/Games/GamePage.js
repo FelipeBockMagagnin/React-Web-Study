@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import GameItem from './GameItem';
+import GameImage from './GameImage';
 
 class GamePage extends Component {
     constructor(props) {
@@ -17,7 +18,8 @@ class GamePage extends Component {
         const data = this.state.gameData;
         return (
             <div>
-                Game Name: {data.name};
+                <GameImage cssClass="image" src={data.background_image} alt="game image"/>
+                <h1>{data.name}</h1>
             </div>
         );
     };
