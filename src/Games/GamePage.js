@@ -17,17 +17,41 @@ class GamePage extends Component {
         const data = this.state.gameData;
         return (
             <div className="card shadow-card container page-card">
-                <div className="form-row">
+                <div className="form-row card-header">
                     <div className="col-md-6" >
                         <GameImage cssClass="image" src={data.background_image} alt="game image"/>
                     </div>
 
                     <div className="col-md-6">
                         <h1>{data.name}</h1>
-                        <div>{data.description}</div>
+                        <p>Release: {data.released}</p>
+                        <p>Average Gameplay time: <b>{data.playtime}</b> hours</p>
+                        <div className="form-row">
+                            <div className="col-md-4">
+                                <p className="mb-0">Main Story</p>
+                                <p>???</p>  
+                            </div>
+
+                            <div className="col-md-4">
+                                <p className="mb-0">Main + Extras</p>
+                                <p>???</p>
+                            </div>
+
+                            <div className="col-md-4">
+                                <p className="mb-0">Completionist</p>
+                                <p>???</p>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-            </div>
+
+                <button className="add-float-button"><i className="fas fa-plus"></i></button>
+                
+                <div className="card-body" dangerouslySetInnerHTML={{__html: data.description}} >
+
+                </div>
+            </div>            
         );
     };
 
