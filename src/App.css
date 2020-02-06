@@ -47,7 +47,7 @@ a:hover {
   text-decoration: none;
 }
 
-.card{
+.card-list{
   width: 18rem;
   display: inline-block;
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
@@ -58,10 +58,17 @@ a:hover {
   height: 150px;
 } 
 
+.shadow-card{
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
+}
+
+.page-card{
+  margin-top: 30px;
+}
 
 .image{
   width: 300px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  border-radius: 100%;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .35);
+  margin-top: 10px;
 }

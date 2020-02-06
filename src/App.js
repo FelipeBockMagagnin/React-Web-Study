@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
-import axios from 'axios';
 import Navbar from './Navbar/Navbar';
 import GameList from './Games/GameList';
 import GamePage from './Games/GamePage';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 class App extends Component {

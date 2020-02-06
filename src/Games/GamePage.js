@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import GameItem from './GameItem';
 import GameImage from './GameImage';
 
 class GamePage extends Component {
@@ -17,9 +16,17 @@ class GamePage extends Component {
     render() {
         const data = this.state.gameData;
         return (
-            <div>
-                <GameImage cssClass="image" src={data.background_image} alt="game image"/>
-                <h1>{data.name}</h1>
+            <div className="card shadow-card container page-card">
+                <div className="form-row">
+                    <div className="col-md-6" >
+                        <GameImage cssClass="image" src={data.background_image} alt="game image"/>
+                    </div>
+
+                    <div className="col-md-6">
+                        <h1>{data.name}</h1>
+                        <div>{data.description}</div>
+                    </div>
+                </div>
             </div>
         );
     };
