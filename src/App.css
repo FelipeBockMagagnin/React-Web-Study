@@ -95,3 +95,16 @@ a:hover {
   text-align:center;
   border: none;
 }
+
+.load-more-float-button{
+  position:fixed;
+	width:160px;
+	height:60px;
+	bottom:40px;
+	right:44%;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:50px;
+  text-align:center;
+  border: none;
+}
