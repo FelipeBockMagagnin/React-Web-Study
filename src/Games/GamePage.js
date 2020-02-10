@@ -22,7 +22,7 @@ class GamePage extends Component {
                         <GameImage cssClass="image" src={data.background_image} alt="game image"/>
                     </div>
 
-                    <div className="col-md-6">
+                    <div className="col-md-5">
                         <h1>{data.name}</h1>
                         <p>Release: {data.released}</p>
                         <p>Average Gameplay time: <b>{data.playtime}</b> hours</p>
@@ -47,7 +47,8 @@ class GamePage extends Component {
                 </div>
 
                 <button className="add-float-button"><i className="fas fa-plus"></i></button>
-                
+                <button className="add-game-button"><i className="fas fa-plus"></i></button>
+
                 <div className="card-body" dangerouslySetInnerHTML={{__html: data.description}} >
 
                 </div>

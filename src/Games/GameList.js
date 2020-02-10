@@ -15,7 +15,6 @@ class GameList extends Component {
         };
 
         this.loadGames('https://api.rawg.io/api/games');
-        this.handleScroll = this.handleScroll.bind(this);
     };    
 
     componentDidMount() {
@@ -28,7 +27,7 @@ class GameList extends Component {
 
     render() {
         return (
-            <div>
+            <div className="game-list-panel">
                 {this.state.games.map(game =>
                     <GameItem key={game.id} data={game} />
                 )}
@@ -49,12 +48,12 @@ class GameList extends Component {
         this.setState({
             games: this.state.games.concat(data.data.results),
             nextGamesPost: data.data.next,
-            gamesLength: this.state.games.length,
+            gamesLength: this.state.games.length + data.data.results.length,
             showGameLoading: false
         });
     }
 
-    handleScroll() {
+    handleScroll = () => {
         const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
         const body = document.body;
         const html = document.documentElement;

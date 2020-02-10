@@ -146,3 +146,11 @@ a:hover {
     transform: rotate(360deg);
   }
 }
+
+.game-list-panel{
+  margin-bottom: 200px;
+}
+
+.add-game-button{
+  
+}
