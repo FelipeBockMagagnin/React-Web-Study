@@ -31,9 +31,8 @@ class GameList extends Component {
                 {this.state.games.map(game =>
                     <GameItem key={game.id} data={game} />
                 )}
-                {
-                    this.state.showGameLoading ? <Loader/> : null
-                }
+
+                { this.state.showGameLoading ? <Loader/> : null }
                 <button className="load-more-float-button">Games Loaded: {this.state.gamesLength}</button>
             </div>
         );

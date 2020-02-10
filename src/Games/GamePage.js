@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import GameImage from './GameImage';
+import Loader from '../Loader';
 
 class GamePage extends Component {
     constructor(props) {
@@ -10,6 +11,7 @@ class GamePage extends Component {
 
         this.state = {
             gameData: [],
+            showGameLoading: true
         };
     }
 
@@ -17,12 +19,15 @@ class GamePage extends Component {
         const data = this.state.gameData;
         return (
             <div className="card shadow-card container page-card">
+                {
+                    this.state.showGameLoading ? <Loader/> : null
+                }
                 <div className="form-row card-header">
                     <div className="col-md-6" >
                         <GameImage cssClass="image" src={data.background_image} alt="game image"/>
                     </div>
 
-                    <div className="col-md-5">
+                    <div className="col-md-6">
                         <h1>{data.name}</h1>
                         <p>Release: {data.released}</p>
                         <p>Average Gameplay time: <b>{data.playtime}</b> hours</p>
@@ -44,10 +49,10 @@ class GamePage extends Component {
                         </div>
 
                     </div>
+                    <button className="add-game-button" onClick={() => alert('Not implemented, add game to user database')}><i className="fas fa-plus"></i></button>
+
                 </div>
 
-                <button className="add-float-button"><i className="fas fa-plus"></i></button>
-                <button className="add-game-button"><i className="fas fa-plus"></i></button>
 
                 <div className="card-body" dangerouslySetInnerHTML={{__html: data.description}} >
 
@@ -57,9 +62,10 @@ class GamePage extends Component {
     };
 
     async gameData(id) {
+        this.setState({showGameLoading: true});
         const data = await axios.get("https://api.rawg.io/api/games/" + id);
+        this.setState({ gameData: data.data, showGameLoading: false });
         console.log(data);
-        this.setState({ gameData: data.data })
     }
 
 }
