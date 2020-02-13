@@ -8,6 +8,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import LoginPage from './LoginPage';
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
             <Switch>
               <Route path="/game/:id" component={GamePage} />
               <Route path="/" exact component={GameList} />
+              <Route path="/login" exact component={LoginPage} />
             </Switch>
           </div>
 
