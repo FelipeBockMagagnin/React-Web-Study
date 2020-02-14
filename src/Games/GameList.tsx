@@ -3,13 +3,30 @@ import axios from 'axios';
 import GameItem from './GameItem';
 import Loader from '../Loader';
 
-class GameList extends Component {
-    constructor(props) {
+type gameListState = {
+    games: Array<game>,
+    nextGamesPost: string,
+    gamesLength: number,
+    showGameLoading: boolean
+}
+
+
+export interface game {
+    id: number,
+    slug: string,
+    name: string
+    background_image: string,
+    released: string,
+    playtime: number
+}
+
+class GameList extends Component<{}, gameListState>{
+    constructor(props: any) {
         super(props);
 
         this.state = {
             games: [],
-            nextGamesPost: "",
+            nextGamesPost: '',
             gamesLength: 0,
             showGameLoading: true
         };
@@ -25,7 +42,7 @@ class GameList extends Component {
         window.removeEventListener("scroll", this.handleScroll);
     }
 
-    searchGames = (event) =>{
+    public searchGames = (event: any) =>{
         console.log(event);
         this.loadGamesSearch('https://api.rawg.io/api/games', event.target.value);
     }
@@ -46,7 +63,7 @@ class GameList extends Component {
         );
     };
 
-    async loadGamesSearch(url, searchstring){
+    public async loadGamesSearch(url: string, searchstring: string){
         this.setState({
             games: [],
             nextGamesPost: '',
@@ -69,7 +86,7 @@ class GameList extends Component {
         });
     }
 
-    async loadGames(url) {
+    public async loadGames(url: string) {
         this.setState({showGameLoading: true})
         const data = await axios.get(url);
         console.log('data', data);

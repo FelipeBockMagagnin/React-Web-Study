@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import GameImage from './GameImage';
+import { game } from './GameList';
 
-class GameItem extends Component {
+type GameItemProps = {
+    data: game
+  }
+
+class GameItem extends Component <GameItemProps, {}>{
 
     render() {
-        let data = this.props.data;
+        let data: game = this.props.data;
         
         return <Link to={'game/' + data.slug}>
             <div className="card card-list">
