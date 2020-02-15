@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import GameImage from './GameImage';
 import Loader from '../Loader';
+import { GameDetails } from '../Data/game';
+import GamesProvider from '../Providers/GamesProvider';
 
-class GamePage extends Component {
+type GamePageProps = {
+    match: any
+}
+
+type GamePageState = {
+    gameData: GameDetails
+    showGameLoading: boolean
+}
+
+class GamePage extends Component<GamePageProps, GamePageState> {
     constructor(props) {
         super(props);
 
-        this.gameData(this.props.match.params.id);
-
         this.state = {
-            gameData: [],
+            gameData: {} as any,
             showGameLoading: true
         };
+
+        this.gameData(this.props.match.params.id)
     }
 
     render() {
@@ -52,20 +62,39 @@ class GamePage extends Component {
                     <button className="add-game-button" onClick={() => alert('Not implemented, add game to user database')}><i className="fas fa-plus"></i></button>
 
                 </div>
+                
+                <div className='card-body'>
+                    {
+                        data.developers != null 
+                        ? data.developers.map(developer => 
+                                <div key={developer.id}>{developer.name} 
+                                <GameImage cssClass="image-tag" src={developer.image_background} alt="game image"/></div>
+                            )
+                        : '' 
+                    }
 
+                    <br></br>
 
-                <div className="card-body" dangerouslySetInnerHTML={{__html: data.description}} >
-
+                    {
+                        data.genres != null 
+                            ? data.genres.map(genre => 
+                                <div key={genre.id}>{genre.name} 
+                                <GameImage cssClass="image-tag" src={genre.image_background} alt="game image"/></div>
+                            ) 
+                            : ''
+                    }
+                    
+                    <div dangerouslySetInnerHTML={{__html: data.description}}></div>
                 </div>
             </div>            
         );
     };
 
-    async gameData(id) {
+    async gameData(id: number) {
         this.setState({showGameLoading: true});
-        const data = await axios.get("https://api.rawg.io/api/games/" + id);
-        this.setState({ gameData: data.data, showGameLoading: false });
-        console.log(data);
+        const data = await new GamesProvider().GetGameById(id);
+        console.log('game page' ,data);
+        this.setState({ showGameLoading: false, gameData: data });
     }
 
 }

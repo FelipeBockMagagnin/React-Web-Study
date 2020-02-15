@@ -1,23 +1,14 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import GameItem from './GameItem';
 import Loader from '../Loader';
+import {Game} from '../Data/game'
+import GamesProvider from '../Providers/GamesProvider';
 
 type gameListState = {
-    games: Array<game>,
+    games: Array<Game>,
     nextGamesPost: string,
     gamesLength: number,
     showGameLoading: boolean
-}
-
-
-export interface game {
-    id: number,
-    slug: string,
-    name: string
-    background_image: string,
-    released: string,
-    playtime: number
 }
 
 class GameList extends Component<{}, gameListState>{
@@ -70,36 +61,36 @@ class GameList extends Component<{}, gameListState>{
             gamesLength: 0,
             showGameLoading: true
         });
-        
-        const urlGet = url + '?search=' + searchstring;
-        const data = await axios.get(urlGet);
 
-        console.log(urlGet);
+        const data = await new GamesProvider().GetGamesSearch(url, searchstring);
+
         console.log('data', data);
         console.log('games', this.state.games);
 
         this.setState({
-            games: data.data.results,
-            nextGamesPost: data.data.next,
-            gamesLength: this.state.games.length + data.data.results.length,
+            games: data.results,
+            nextGamesPost: data.next,
+            gamesLength: this.state.games.length + data.results.length,
             showGameLoading: false
         });
     }
 
     public async loadGames(url: string) {
-        this.setState({showGameLoading: true})
-        const data = await axios.get(url);
+        this.setState({showGameLoading: true});
+        const data = await new GamesProvider().GetGames(url);
+
         console.log('data', data);
         console.log('state games', this.state.games);
 
         this.setState({
-            games: this.state.games.concat(data.data.results),
-            nextGamesPost: data.data.next,
-            gamesLength: this.state.games.length + data.data.results.length,
+            games: [...this.state.games, ...data.results],
+            nextGamesPost: data.next,
+            gamesLength: this.state.games.length + data.results.length,
             showGameLoading: false
         });
     }
 
+    //Detect the bottom page to load more game
     handleScroll = () => {
         const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
         const body = document.body;

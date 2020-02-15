@@ -74,6 +74,12 @@ a:hover {
   margin-top: 10px;
 }
 
+.image-tag {
+  height: 20px;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .35);
+  margin-top: 10px;
+}
+
 .card-header {
   margin-bottom: 10px;
   padding-left: 0px;
