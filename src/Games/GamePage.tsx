@@ -18,7 +18,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
         super(props);
 
         this.state = {
-            gameData: {} as any,
+            gameData: {} as GameDetails,
             showGameLoading: true
         };
 
@@ -26,15 +26,21 @@ class GamePage extends Component<GamePageProps, GamePageState> {
     }
 
     render() {
-        const data = this.state.gameData;
+        if (this.state.showGameLoading) {
+            return <Loader />
+        }
+        else {
+            return this.renderData(this.state.gameData);
+        }
+    };
+
+    renderData(data: GameDetails) {
         return (
             <div className="card shadow-card container page-card">
-                {
-                    this.state.showGameLoading ? <Loader/> : null
-                }
+
                 <div className="form-row card-header">
                     <div className="col-md-6" >
-                        <GameImage cssClass="image" src={data.background_image} alt="game image"/>
+                        <GameImage cssClass="image" src={data.background_image} alt="game image" />
                     </div>
 
                     <div className="col-md-6">
@@ -44,7 +50,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
                         <div className="form-row">
                             <div className="col-md-4">
                                 <p className="mb-0">Main Story</p>
-                                <p>???</p>  
+                                <p>???</p>
                             </div>
 
                             <div className="col-md-4">
@@ -62,38 +68,58 @@ class GamePage extends Component<GamePageProps, GamePageState> {
                     <button className="add-game-button" onClick={() => alert('Not implemented, add game to user database')}><i className="fas fa-plus"></i></button>
 
                 </div>
-                
+
                 <div className='card-body'>
-                    {
-                        data.developers != null 
-                        ? data.developers.map(developer => 
-                                <div key={developer.id}>{developer.name} 
-                                <GameImage cssClass="image-tag" src={developer.image_background} alt="game image"/></div>
+                    Publishers:
+                    <div className='tag-holder'>
+                        {
+                            data.publishers.map(publisher =>
+                                <div key={publisher.id} className='tag'>
+                                    <GameImage cssClass="image-tag" src={publisher.image_background} alt="game image" />
+                                    {publisher.name}
+                                </div>
                             )
-                        : '' 
-                    }
+                        }
+                    </div>
 
                     <br></br>
 
-                    {
-                        data.genres != null 
-                            ? data.genres.map(genre => 
-                                <div key={genre.id}>{genre.name} 
-                                <GameImage cssClass="image-tag" src={genre.image_background} alt="game image"/></div>
-                            ) 
-                            : ''
-                    }
-                    
-                    <div dangerouslySetInnerHTML={{__html: data.description}}></div>
+                    Developers:
+                    <div className='tag-holder'>
+                        {
+                            data.developers.map(developer =>
+                                <div key={developer.id} className='tag'>
+                                    <GameImage cssClass="image-tag" src={developer.image_background} alt="game image" />
+                                    {developer.name}
+                                </div>
+                            )
+                        }
+                    </div>
+
+                    <br></br>
+
+                    Genres:
+                    <div className='tag-holder'>
+                        {
+                            data.genres.map(genre =>
+                                <div key={genre.id} className='tag'>
+                                    <GameImage cssClass="image-tag" src={genre.image_background} alt="game image" />
+                                    {genre.name}
+                                </div>
+                            )
+                        }
+                    </div>
+
+                    <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
                 </div>
-            </div>            
+            </div>
         );
-    };
+    }
 
     async gameData(id: number) {
-        this.setState({showGameLoading: true});
+        this.setState({ showGameLoading: true });
         const data = await new GamesProvider().GetGameById(id);
-        console.log('game page' ,data);
+        console.log('game page', data);
         this.setState({ showGameLoading: false, gameData: data });
     }
 

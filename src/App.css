@@ -74,11 +74,7 @@ a:hover {
   margin-top: 10px;
 }
 
-.image-tag {
-  height: 20px;
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .35);
-  margin-top: 10px;
-}
+
 
 .card-header {
   margin-bottom: 10px;
@@ -186,4 +182,22 @@ a:hover {
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+.image-tag {
+  height: 50px;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .35);
+}
+
+.tag-holder{
+  width: 100%;
+  border: 1px solid black;
+}
+
+.tag{
+  display: inline-block;
+    border: 1px solid black;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
 }
