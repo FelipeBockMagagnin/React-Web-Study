@@ -46,7 +46,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
                     <div className="col-md-6">
                         <h1>{data.name}</h1>
                         <p>Release: {data.released}</p>
-                        <p>Average Gameplay time: <b>{data.playtime}</b> hours</p>
+                        <p>Gameplay time: <b>{data.playtime}</b> hours - rating: <b>{data.rating}</b></p>
                         <div className="form-row">
                             <div className="col-md-4">
                                 <p className="mb-0">Main Story</p>
@@ -70,89 +70,99 @@ class GamePage extends Component<GamePageProps, GamePageState> {
                 </div>
 
                 <div className='card-body'>
-                    Publishers:
-                    <div className='tag-holder'>
-                        {
-                            data.publishers.map(publisher =>
-                                <div key={publisher.id} className='tag'>
-                                    <GameImage cssClass="image-tag" src={publisher.image_background} alt="game image" />
-                                    {publisher.name}
+                    <div className='form-row'>
+                        <div className='col-md-8' style={{ borderRightWidth: 1, borderRightColor: 'black', borderRightStyle: 'solid' }}>
+                            <video width="580" height="330" controls style={{ marginBottom: 20 }}>
+                                <source src={data.clip.clip} type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+
+                            <br></br>
+
+                            <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
+                        </div>
+
+                        <div className='col-md-4'>
+                            Genres:
+                            <div className='tag-holder'>
+                                {
+                                    data.genres.map(genre =>
+                                        <div key={genre.id} className='tag'>
+                                            {genre.name}
+                                        </div>
+                                    )
+                                }
+                            </div>
+
+                            <br></br>
+
+                            Tags:
+                            <div className='tag-holder'>
+                                {
+                                    data.tags.map(tag =>
+                                        <div key={tag.id} className='tag'>
+                                            <b>{tag.name}</b>
+                                        </div>
+                                    )
+                                }
+                            </div>
+
+                            <br></br>
+
+                            Publishers:
+                            <div className='tag-holder'>
+                                {
+                                    data.publishers.map(publisher =>
+                                        <div key={publisher.id} className='tag'>
+                                            <GameImage cssClass="image-tag" src={publisher.image_background} alt="game image" />
+                                            {publisher.name}
+                                        </div>
+                                    )
+                                }
+                            </div>
+
+                            <br></br>
+
+                            Developers:
+                            <div className='tag-holder'>
+                                {
+                                    data.developers.map(developer =>
+                                        <div key={developer.id} className='tag'>
+                                            <GameImage cssClass="image-tag" src={developer.image_background} alt="game image" />
+                                            {developer.name}
+                                        </div>
+                                    )
+                                }
+                            </div>
+
+                            <br></br>
+
+                            <div>
+                                <b>Social Data</b>
+                                <div>
+                                    Twitch: {data.twitch_count}
+                                    <br></br>
+                                    Youtube: {data.youtube_count}
+                                    <br></br>
+                                    Reddit: {data.reddit_count}
                                 </div>
-                            )
-                        }
+                            </div>
+                        </div>
                     </div>
-
-                    <br></br>
-
-                    Developers:
-                    <div className='tag-holder'>
-                        {                            
-                            data.developers.map(developer =>
-                                <div key={developer.id} className='tag'>
-                                    <GameImage cssClass="image-tag" src={developer.image_background} alt="game image" />
-                                    {developer.name}
-                                </div>
-                            )
-                        }
-                    </div>
-
-                    <br></br>
-
-                    Genres:
-                    <div className='tag-holder'>
-                        {
-                            data.genres.map(genre =>
-                                <div key={genre.id} className='tag'>
-                                    {genre.name}
-                                </div>
-                            )
-                        }
-                    </div>
-                    
-                    <br></br>
-
-                    <div className='tag-holder'>
-                        {
-                            data.tags.map(tag => 
-                                <div key={tag.id} className='tag'>
-                                    <b>{tag.name}</b>
-                                </div>
-                            )
-                        }
-                    </div>
-                    
-                    <br></br>
-
-                    <div>
-                        <b>Social Data</b>
-                        <div>
-                             Twitch: {data.twitch_count}
-                             <br></br>
-                             Youtube: {data.youtube_count}
-                             <br></br>
-                             Reddit: {data.reddit_count}   
-                        </div>    
-                    </div>        
-
-                    <br></br>
-
-
-                    <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
-
                 </div>
             </div>
         );
     }
 
     async gameData(id: number) {
-        this.setState({ 
-            showGameLoading: true 
+        this.setState({
+            showGameLoading: true
         });
         const data = await new GamesProvider().GetGameById(id);
         console.log('game page', data);
-        this.setState({ 
-            showGameLoading: false, 
-            gameData: data 
+        this.setState({
+            showGameLoading: false,
+            gameData: data
         });
     }
 
