@@ -34,7 +34,6 @@ class GameList extends Component<{}, gameListState>{
     }
 
     public searchGames = (event: any) =>{
-        console.log(event);
         this.loadGamesSearch('https://api.rawg.io/api/games', event.target.value);
     }
 
@@ -76,16 +75,21 @@ class GameList extends Component<{}, gameListState>{
     }
 
     public async loadGames(url: string) {
-        this.setState({showGameLoading: true});
-        const data = await new GamesProvider().GetGames(url);
+        this.setState({
+            showGameLoading: true
+        });
+        
+        let data = await new GamesProvider().GetGames(url);
 
         console.log('data', data);
         console.log('state games', this.state.games);
 
+        let length = data.results.length; 
+
         this.setState({
-            games: [...this.state.games, ...data.results],
+            games: this.state.games.concat(data.results),
             nextGamesPost: data.next,
-            gamesLength: this.state.games.length + data.results.length,
+            gamesLength: this.state.gamesLength + length,
             showGameLoading: false
         });
     }

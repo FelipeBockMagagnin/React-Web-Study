@@ -86,7 +86,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
 
                     Developers:
                     <div className='tag-holder'>
-                        {
+                        {                            
                             data.developers.map(developer =>
                                 <div key={developer.id} className='tag'>
                                     <GameImage cssClass="image-tag" src={developer.image_background} alt="game image" />
@@ -103,24 +103,57 @@ class GamePage extends Component<GamePageProps, GamePageState> {
                         {
                             data.genres.map(genre =>
                                 <div key={genre.id} className='tag'>
-                                    <GameImage cssClass="image-tag" src={genre.image_background} alt="game image" />
                                     {genre.name}
                                 </div>
                             )
                         }
                     </div>
+                    
+                    <br></br>
+
+                    <div className='tag-holder'>
+                        {
+                            data.tags.map(tag => 
+                                <div key={tag.id} className='tag'>
+                                    <b>{tag.name}</b>
+                                </div>
+                            )
+                        }
+                    </div>
+                    
+                    <br></br>
+
+                    <div>
+                        <b>Social Data</b>
+                        <div>
+                             Twitch: {data.twitch_count}
+                             <br></br>
+                             Youtube: {data.youtube_count}
+                             <br></br>
+                             Reddit: {data.reddit_count}   
+                        </div>    
+                    </div>        
+
+                    <br></br>
+
 
                     <div dangerouslySetInnerHTML={{ __html: data.description }}></div>
+
                 </div>
             </div>
         );
     }
 
     async gameData(id: number) {
-        this.setState({ showGameLoading: true });
+        this.setState({ 
+            showGameLoading: true 
+        });
         const data = await new GamesProvider().GetGameById(id);
         console.log('game page', data);
-        this.setState({ showGameLoading: false, gameData: data });
+        this.setState({ 
+            showGameLoading: false, 
+            gameData: data 
+        });
     }
 
 }
