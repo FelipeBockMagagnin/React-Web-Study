@@ -8,10 +8,11 @@ type gameListState = {
     games: Array<Game>,
     nextGamesPost: string,
     gamesLength: number,
-    showGameLoading: boolean
+    showGameLoading: boolean,
+    loadingPage: boolean
 }
 
-class GameList extends Component<{}, gameListState>{
+class GameList extends Component<{}, gameListState>{    
     constructor(props: any) {
         super(props);
 
@@ -19,13 +20,14 @@ class GameList extends Component<{}, gameListState>{
             games: [],
             nextGamesPost: '',
             gamesLength: 0,
-            showGameLoading: true
+            showGameLoading: true,
+            loadingPage: true
         };
-
-        this.loadGames('https://api.rawg.io/api/games');
     };    
 
     componentDidMount() {
+        this.setState({loadingPage: true});
+        this.loadGames('https://api.rawg.io/api/games');
         window.addEventListener("scroll", this.handleScroll);
     }
 
@@ -38,6 +40,11 @@ class GameList extends Component<{}, gameListState>{
     }
 
     render() {
+        if(this.state.loadingPage){
+            console.log('loading page');
+            return <Loader></Loader>
+        }
+
         return (
             <div className="game-list-panel">
                 <div className='col-md-6'>
@@ -48,7 +55,6 @@ class GameList extends Component<{}, gameListState>{
                 )}
 
                 { this.state.showGameLoading ? <Loader/> : null }
-                <button className="load-more-float-button">Games Loaded: {this.state.gamesLength}</button>
             </div>
         );
     };
@@ -61,17 +67,17 @@ class GameList extends Component<{}, gameListState>{
             showGameLoading: true
         });
 
-        const data = await new GamesProvider().GetGamesSearch(url, searchstring);
+        new GamesProvider().GetGamesSearch(url, searchstring).then(data => {
+            console.log('data', data);
+            console.log('games', this.state.games);   
 
-        console.log('data', data);
-        console.log('games', this.state.games);
-
-        this.setState({
-            games: data.results,
-            nextGamesPost: data.next,
-            gamesLength: this.state.games.length + data.results.length,
-            showGameLoading: false
-        });
+            this.setState({
+                games: data.results,
+                nextGamesPost: data.next,
+                gamesLength: this.state.games.length + data.results.length,
+                showGameLoading: false,
+            });
+        });        
     }
 
     public async loadGames(url: string) {
@@ -79,19 +85,25 @@ class GameList extends Component<{}, gameListState>{
             showGameLoading: true
         });
         
-        let data = await new GamesProvider().GetGames(url);
+        new GamesProvider().GetGames(url).then(data =>{
+            console.log('data', data);
+            console.log('state games', this.state.games);   
+    
+            if(data.results === undefined){
+                console.log('page loading error', data);
+                return;
+            }
 
-        console.log('data', data);
-        console.log('state games', this.state.games);
+            if(this.state.loadingPage){
+                this.setState({loadingPage: false});
+            }
 
-        let length = data.results.length; 
-
-        this.setState({
-            games: this.state.games.concat(data.results),
-            nextGamesPost: data.next,
-            gamesLength: this.state.gamesLength + length,
-            showGameLoading: false
-        });
+            this.setState({
+                games: this.state.games.concat(data.results),
+                nextGamesPost: data.next,
+                showGameLoading: false
+            });
+        });        
     }
 
     //Detect the bottom page to load more game

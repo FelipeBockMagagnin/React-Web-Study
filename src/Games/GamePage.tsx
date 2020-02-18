@@ -22,7 +22,6 @@ class GamePage extends Component<GamePageProps, GamePageState> {
             showGameLoading: true
         };
 
-        this.gameData(this.props.match.params.id)
     }
 
     render() {
@@ -33,6 +32,10 @@ class GamePage extends Component<GamePageProps, GamePageState> {
             return this.renderData(this.state.gameData);
         }
     };
+
+    componentDidMount(){
+        this.gameData(this.props.match.params.id)
+    }
 
     renderData(data: GameDetails) {
         return (
@@ -72,7 +75,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
                 <div className='card-body'>
                     <div className='form-row'>
                         <div className='col-md-8' style={{ borderRightWidth: 1, borderRightColor: 'black', borderRightStyle: 'solid' }}>
-                            <video width="580" height="330" controls style={{ marginBottom: 20 }}>
+                            <video width="100%" height="330" controls style={{ marginBottom: 20 }}>
                                 <source src={data.clip.clip} type="video/mp4" />
                                 Your browser does not support the video tag.
                             </video>
@@ -87,7 +90,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
                             <div className='tag-holder'>
                                 {
                                     data.genres.map(genre =>
-                                        <div key={genre.id} className='tag'>
+                                        <div key={genre.id} className='tag genres-tag'>
                                             {genre.name}
                                         </div>
                                     )
@@ -96,11 +99,11 @@ class GamePage extends Component<GamePageProps, GamePageState> {
 
                             <br></br>
 
-                            Tags:
+                            Category:
                             <div className='tag-holder'>
                                 {
                                     data.tags.map(tag =>
-                                        <div key={tag.id} className='tag'>
+                                        <div key={tag.id} className='tag category-tag'>
                                             <b>{tag.name}</b>
                                         </div>
                                     )
@@ -113,7 +116,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
                             <div className='tag-holder'>
                                 {
                                     data.publishers.map(publisher =>
-                                        <div key={publisher.id} className='tag'>
+                                        <div key={publisher.id} className='tag publisher-tag'>
                                             <GameImage cssClass="image-tag" src={publisher.image_background} alt="game image" />
                                             {publisher.name}
                                         </div>
@@ -127,7 +130,7 @@ class GamePage extends Component<GamePageProps, GamePageState> {
                             <div className='tag-holder'>
                                 {
                                     data.developers.map(developer =>
-                                        <div key={developer.id} className='tag'>
+                                        <div key={developer.id} className='tag developers-tag'>
                                             <GameImage cssClass="image-tag" src={developer.image_background} alt="game image" />
                                             {developer.name}
                                         </div>

@@ -201,5 +201,26 @@ a:hover {
     border: 1px solid black;
     padding: 5px;
     margin: 5px;
-    border-radius: 10px;
+    border-radius: 5px;
+}
+
+.developers-tag{
+
+}
+
+.developers-tag{
+
+}
+
+.genres-tag{
+
+}
+
+.category-tag{
+  font-size: 14px;
+  padding: 2px;
+  margin: 2px;
+}
+
+.publisher-tag{
 }
