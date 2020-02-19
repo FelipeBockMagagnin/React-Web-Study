@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import GameItem from './GameItem';
 import Loader from '../Loader';
-import {Game} from '../Data/game'
+import { Game } from '../Data/game'
 import GamesProvider from '../Providers/GamesProvider';
 
 type gameListState = {
@@ -12,7 +12,7 @@ type gameListState = {
     loadingPage: boolean
 }
 
-class GameList extends Component<{}, gameListState>{    
+class GameList extends Component<{}, gameListState>{
     constructor(props: any) {
         super(props);
 
@@ -23,10 +23,10 @@ class GameList extends Component<{}, gameListState>{
             showGameLoading: true,
             loadingPage: true
         };
-    };    
+    };
 
     componentDidMount() {
-        this.setState({loadingPage: true});
+        this.setState({ loadingPage: true });
         this.loadGames('https://api.rawg.io/api/games');
         window.addEventListener("scroll", this.handleScroll);
     }
@@ -35,31 +35,34 @@ class GameList extends Component<{}, gameListState>{
         window.removeEventListener("scroll", this.handleScroll);
     }
 
-    public searchGames = (event: any) =>{
+    public searchGames = (event: any) => {
         this.loadGamesSearch('https://api.rawg.io/api/games', event.target.value);
     }
 
     render() {
-        if(this.state.loadingPage){
+        if (this.state.loadingPage) {
             console.log('loading page');
             return <Loader></Loader>
         }
 
         return (
             <div className="game-list-panel">
-                <div className='col-md-6'>
-                    <input className="form-control" placeholder="search" onChange={this.searchGames}></input>
+                <div className='container mt-3 mb-3'>
+                    <div className='col-md-6 container'>
+                        <input className="form-control" placeholder="search" onChange={this.searchGames}></input>
+                    </div>
                 </div>
+
                 {this.state.games.map(game =>
                     <GameItem key={game.id} data={game} />
                 )}
 
-                { this.state.showGameLoading ? <Loader/> : null }
+                {this.state.showGameLoading ? <Loader /> : null}
             </div>
         );
     };
 
-    public async loadGamesSearch(url: string, searchstring: string){
+    public async loadGamesSearch(url: string, searchstring: string) {
         this.setState({
             games: [],
             nextGamesPost: '',
@@ -69,7 +72,7 @@ class GameList extends Component<{}, gameListState>{
 
         new GamesProvider().GetGamesSearch(url, searchstring).then(data => {
             console.log('data', data);
-            console.log('games', this.state.games);   
+            console.log('games', this.state.games);
 
             this.setState({
                 games: data.results,
@@ -77,25 +80,25 @@ class GameList extends Component<{}, gameListState>{
                 gamesLength: this.state.games.length + data.results.length,
                 showGameLoading: false,
             });
-        });        
+        });
     }
 
     public async loadGames(url: string) {
         this.setState({
             showGameLoading: true
         });
-        
-        new GamesProvider().GetGames(url).then(data =>{
+
+        new GamesProvider().GetGames(url).then(data => {
             console.log('data', data);
-            console.log('state games', this.state.games);   
-    
-            if(data.results === undefined){
+            console.log('state games', this.state.games);
+
+            if (data.results === undefined) {
                 console.log('page loading error', data);
                 return;
             }
 
-            if(this.state.loadingPage){
-                this.setState({loadingPage: false});
+            if (this.state.loadingPage) {
+                this.setState({ loadingPage: false });
             }
 
             this.setState({
@@ -103,7 +106,7 @@ class GameList extends Component<{}, gameListState>{
                 nextGamesPost: data.next,
                 showGameLoading: false
             });
-        });        
+        });
     }
 
     //Detect the bottom page to load more game
