@@ -8,7 +8,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import LoginPage from './LoginPage';
+import LoginPage from './Login/LoginPage';
 
 class App extends Component {
   render() {
