@@ -1,4 +1,4 @@
-import {GameResponse, GameDetails} from '../Data/game';
+import {GameResponse, GameDetails} from './Data/game';
 import axios from 'axios';
 
 class GamesProvider {

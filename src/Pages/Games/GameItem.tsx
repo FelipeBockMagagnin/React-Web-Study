@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import GameImage from './GameImage';
-import {Game} from '../Data/game';
+import {Game} from '../../Services/Data/game';
 
 type GameItemProps = {
     data: Game

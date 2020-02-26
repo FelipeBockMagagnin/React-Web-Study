@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import GameImage from './GameImage';
 import Loader from '../Loader';
-import { GameDetails } from '../Data/game';
-import GamesProvider from '../Providers/GamesProvider';
+import { GameDetails } from '../../Services/Data/game';
+import GamesProvider from '../../Services/GamesService';
 
 type GamePageProps = {
     match: any

@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import './App.css';
-import Navbar from './Navbar/Navbar';
-import GameList from './Games/GameList';
-import GamePage from './Games/GamePage';
+import './styles/App.css';
+import Navbar from './Pages/Navbar/Navbar';
+import GameList from './Pages/Games/GameList';
+import Welcome from './Pages/Welcome';
+import GamePage from './Pages/Games/GamePage';
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
-import LoginPage from './Login/LoginPage';
+import LoginPage from './Pages/Login/LoginPage';
 
 class App extends Component {
   render() {
@@ -20,7 +21,8 @@ class App extends Component {
           <div>
             <Switch>
               <Route path="/game/:id" component={GamePage} />
-              <Route path="/" exact component={GameList} />
+              <Route path="/" exact component={Welcome} />
+              <Route path="/games" exact component={GameList} />
               <Route path="/login" exact component={LoginPage} />
             </Switch>
           </div>

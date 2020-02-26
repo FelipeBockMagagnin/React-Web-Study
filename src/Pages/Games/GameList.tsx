@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import GameItem from './GameItem';
 import Loader from '../Loader';
-import { Game } from '../Data/game'
-import GamesProvider from '../Providers/GamesProvider';
+import { Game } from '../../Services/Data/game'
+import GamesProvider from '../../Services/GamesService';
 
 type gameListState = {
     games: Array<Game>,
