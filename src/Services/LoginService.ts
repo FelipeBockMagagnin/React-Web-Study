@@ -1,4 +1,4 @@
-class LoginProvider {
+class LoginService {
     TOKEN_KEY = "@login-Token";
 
     isAuthenticated = () : boolean => {
@@ -18,4 +18,4 @@ class LoginProvider {
     };
 }
 
-export default LoginProvider
+export default LoginService

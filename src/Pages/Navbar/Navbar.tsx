@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import LoginService from '../../Services/LoginService';
 
 const navbar = () => {
+    let login = new LoginService();
     return <nav className="navbar navbar-dark navbar-expand-lg sticky-top bg-dark flex-md-nowrap">
         <Link className="navbar-brand" to="/">GamePlayTime</Link>
 
@@ -19,10 +21,13 @@ const navbar = () => {
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="/login">Login</Link>
-                </li>                
+                </li>
             </ul>
+            <span className="navbar-text">
+                {(!login.isAuthenticated() ? <div>Não esta logado</div> : <div>Esta Logado</div>)}
+            </span>
         </div>
-        </nav>
-        };
-        
-        export default navbar;
+    </nav>
+};
+
+export default navbar;

@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-
+import LoginService from "../../Services/LoginService";
+import Loader from '../Loader';
 
 type LoginPageState = {
     apiUrl: string,
     email: string,
-    password: string
+    password: string,
+    loading: boolean
 }
 
 class LoginPage extends Component<{}, LoginPageState> {
     
     constructor(props){
         super(props);   
-
+            
         this.state = {
             apiUrl: 'https://gameplaytime-api.herokuapp.com/api/user',
             email: '',
-            password: ''
+            password: '',
+            loading: false
         }
     }
 
@@ -48,7 +51,17 @@ class LoginPage extends Component<{}, LoginPageState> {
             <button className='btn btn-secondary' style={{marginTop: 40}} onClick={this.registerLogin}>Register</button>
             <button className='btn btn-success' style={{ marginTop: 40, marginLeft: 20}} onClick={this.validateLogin}>Login</button>
 
+            <br></br>
+            
+            <button className='btn btn-danger' onClick={this.logout} style={{marginTop: 20}}>Logout</button>
+            {this.state.loading ? <Loader></Loader> : ""}
         </div>
+    }
+
+    logout = () => {
+        let login = new LoginService();
+        login.logout();
+        window.location.reload();
     }
 
     registerLogin = () => {
@@ -56,11 +69,13 @@ class LoginPage extends Component<{}, LoginPageState> {
             return;
         }
 
+        this.setState({loading: true});
+
         Axios.post(this.state.apiUrl, { email: this.state.email})
         .then(data => {
             console.log('before register data', data);
             console.log('data length', data.data.length);
-
+            
             if(data.data.length === 0){
                 Axios.put(this.state.apiUrl, {email: this.state.email, password: this.state.password})
                 .then(data => {
@@ -71,7 +86,6 @@ class LoginPage extends Component<{}, LoginPageState> {
                     console.log('put login error', error);
                     alert('error');
                 })
-
                 return;               
             }
 
@@ -82,6 +96,9 @@ class LoginPage extends Component<{}, LoginPageState> {
             console.log(error);
             alert('error');
         })
+        .finally(() => {
+            this.setState({loading: false})
+        })
     }
 
     validateLogin = () => {
@@ -89,6 +106,7 @@ class LoginPage extends Component<{}, LoginPageState> {
             return;
         }
 
+        this.setState({loading: true})
         Axios.post(this.state.apiUrl, { email: this.state.email})
         .then(data =>{
             console.log(data);
@@ -98,6 +116,9 @@ class LoginPage extends Component<{}, LoginPageState> {
             }
 
             if(data.data.password === this.state.password){
+                let login = new LoginService();
+                login.login(this.state.email);
+                window.location.reload();
                 alert("Succefull login as: " + data.data.email);
                 return;
             }
@@ -107,7 +128,10 @@ class LoginPage extends Component<{}, LoginPageState> {
         .catch(error =>{
             alert("Error");
             console.log(error);
-        });
+        })
+        .finally(() => {
+            this.setState({loading: false})
+        })
     }
 
     validateForm = ():boolean => {
