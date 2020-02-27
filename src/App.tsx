@@ -10,6 +10,7 @@ import {
   Route
 } from "react-router-dom";
 import LoginPage from './Pages/Login/LoginPage';
+import Dashboard from './Pages/User/Dashboard'
 
 class App extends Component {
   render() {
@@ -24,6 +25,7 @@ class App extends Component {
               <Route path="/" exact component={Welcome} />
               <Route path="/games" exact component={GameList} />
               <Route path="/login" exact component={LoginPage} />
+              <Route path="/dashboard" exact component={Dashboard} />
             </Switch>
           </div>
 

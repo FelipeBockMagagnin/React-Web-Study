@@ -12,22 +12,37 @@ const navbar = () => {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                    <Link className="nav-link" to='/'>Home</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to='/games'>Games</Link>
-                </li>
-                <li className="nav-item">
-                    <Link className="nav-link" to="/login">Login</Link>
-                </li>
-            </ul>
+            {login.isAuthenticated()
+                ? AuthNav()
+                : NotAuthNav()
+            }
             <span className="navbar-text">
                 {(!login.isAuthenticated() ? <div>Não esta logado</div> : <div>Esta Logado</div>)}
             </span>
         </div>
     </nav>
 };
+
+const AuthNav = () => {
+    return <ul className="navbar-nav mr-auto">
+        <li className="nav-item">
+            <Link className="nav-link" to='/games'>Games</Link>
+        </li>
+        <li className="nav-item">
+            <Link className="nav-link" to="/dashboard">MyGames</Link>
+        </li>
+        <li className="nav-item">
+            <Link className="nav-link" to="/login">Login</Link>
+        </li>
+    </ul>
+}
+
+const NotAuthNav = () => {
+    return <ul className="navbar-nav mr-auto">
+        <li className="nav-item">
+            <Link className="nav-link" to="/login">Login</Link>
+        </li>
+    </ul>
+}
 
 export default navbar;
